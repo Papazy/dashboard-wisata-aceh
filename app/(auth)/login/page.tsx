@@ -1,7 +1,7 @@
 'use client'
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/hooks/useAuth";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Login() {
@@ -12,19 +12,20 @@ export default function Login() {
   const auth = useAuth();
   const router = useRouter();
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    setLoading(true);
     if (!data.email || !data.password) {
       setError("Email and Password are required.");
+      setLoading(false)
       return;
     }
 
-    setLoading(true);
     setError(null);
 
     try {
-      await auth.login(data);
+      await auth.login(data)
       router.push("/");
-      
     }catch(err: unknown){
       if(typeof err === "string"){
         console.log(err.toUpperCase);
@@ -33,7 +34,9 @@ export default function Login() {
         console.log(err.message);
         setError(err.message);
       }
+      return
     }
+    
     setLoading(false);
   };
 
@@ -57,7 +60,7 @@ export default function Login() {
             onChange={(e) => setData({ ...data, password: e.target.value })}
           />
           <button
-            onClick={handleSubmit}
+            onClick={(e)=>handleSubmit(e)}
             disabled={loading}
             className={`py-2 px-4 rounded-md bg-blue-500 text-white font-semibold hover:bg-blue-600 transition ${loading ? "opacity-50 cursor-not-allowed" : ""
               }`}

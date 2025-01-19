@@ -9,9 +9,20 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { Calendar, Home, Inbox, Search, Settings, User, Target } from "lucide-react"
+import { Calendar, Home, Inbox, Search, Settings, User, Target, LogOut } from "lucide-react"
+import { useAuth } from "@/hooks/useAuth"
+import { useRouter } from "next/navigation";
  
 export function AppSidebar() {
+
+  const {logout} = useAuth();
+  const router = useRouter();
+  const handleLogout = (e: any) => {
+    e.preventDefault
+    logout();
+    router.replace("/login");
+    
+  }
 
   const items = [
     {
@@ -58,6 +69,11 @@ export function AppSidebar() {
         </SidebarMenu>
         
         <SidebarGroup />
+
+        <div onClick={(e)=>handleLogout(e)} className="bg-red-500 cursor-pointer py-2 px-3 text-white font-semibold rounded-md hover:bg-red-600 transition mx-5 flex items-center space-x-2">
+            <LogOut />
+            <span>Logout</span>
+        </div>
       </SidebarContent>
       <SidebarFooter />
     </Sidebar>

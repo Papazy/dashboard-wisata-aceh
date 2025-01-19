@@ -117,3 +117,43 @@ body {
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
+
+.table-container {
+  overflow-x: auto; /* Agar tabel dapat di-scroll jika terlalu lebar */
+}
+
+table {
+  width: 100%; /* Tabel memenuhi lebar kontainer */
+  border-collapse: collapse; /* Menghilangkan celah antar border */
+}
+
+th, td {
+  padding: 10px; /* Spasi antar isi */
+  text-align: left; /* Teks rata kiri */
+}
+
+th {
+  background-color: #f4f4f4; /* Warna latar kolom header */
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9; /* Alternatif warna untuk baris */
+}
+
+tr:hover {
+  background-color: #f1f1f1; /* Warna saat baris di-hover */
+}
+
+img {
+  max-width: 80px;
+  height: auto;
+  border-radius: 5px;
+}
+
+img {
+  max-width: 100%;
+  max-height: 100px; /* Sesuaikan tinggi maksimum */
+  object-fit: cover; /* Memastikan gambar tidak terdistorsi */
+  border-radius: 5px;
+}

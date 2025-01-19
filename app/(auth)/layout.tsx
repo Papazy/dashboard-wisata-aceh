@@ -6,9 +6,10 @@ import { AppSidebar } from "@/components/app-sidebar"
 import "../globals.css";
 import { useAuth } from "@/hooks/useAuth";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
-  export default function MainLayout({
+
+  export default function AuthLayout({
     children,
   }: Readonly<{
     children: React.ReactNode;
@@ -16,37 +17,28 @@ import { useRouter } from "next/navigation";
 
     const {isAuthenticated} = useAuth();
     const [isLoading, setIsLoading] = useState(true);
-    const router = useRouter();
-    const [isAuth, setIsAuth] = useState(false);
+    const router = useRouter()
+
+    
 
     useEffect(()=>{
-      
       const fetchUser = async() =>{
-
-        // console.log("Masuk ke fetchUser");
-        if(!isAuthenticated()){
-          setIsAuth(false);
-          router.replace("/login");
+        if(isAuthenticated()){
+          router.push("/");
         }else{
-          setIsAuth(true);
           setIsLoading(false);
         }
       }
       fetchUser();
-    },[isAuthenticated])
+    },[])
 
     if(isLoading){
       return <div className="w-full h-screen flex justify-center items-center "><p>Loading...</p></div>
     }
 
     return (
-      
-          <SidebarProvider>
-            <AppSidebar />
-            <main className="w-full">
-              <SidebarTrigger />
-              {children}
-            </main>
-          </SidebarProvider>
+      <main>
+        {children}
+      </main>   
     );
   }

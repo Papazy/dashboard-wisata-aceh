@@ -4,8 +4,8 @@ export interface ProviderProps {
   user: any;
   token: string;
   login: (data: LoginProps) => Promise<void>;
-  logout: () => Promise<void>;
-  isAuthenticated: boolean;
+  logout: () => void;
+  isAuthenticated: () => boolean;
 }
 
 // props untuk fungsi login
