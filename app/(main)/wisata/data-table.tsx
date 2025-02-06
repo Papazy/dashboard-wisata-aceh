@@ -1,6 +1,15 @@
 "use client"
 
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
+import {
   ColumnDef,
   ColumnFiltersState,
   SortingState,
@@ -42,6 +51,12 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   )
+  const [selectedId, setSelectedId] = React.useState<number | null>(null);
+  const [modalIsOpen, setModalIsOpen] = React.useState(true);
+
+
+
+
   const table = useReactTable({
     data,
     columns,
@@ -55,6 +70,9 @@ export function DataTable<TData, TValue>({
       sorting,
       columnFilters,
     },
+    meta : {
+
+    }
   })
 
 
@@ -64,7 +82,10 @@ export function DataTable<TData, TValue>({
   }
 
   return (
+
+    
     <div className="m-3">
+      
       <div className="flex items-center py-4 justify-between">
         <Input
           placeholder="Filter emails..."
@@ -74,7 +95,6 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
-        {/* button to link to add */}
         <Button variant="secondary" className="text-white" onClick={handleClick}>+ Wisata</Button>
 
       </div>
@@ -124,6 +144,8 @@ export function DataTable<TData, TValue>({
             )}
           </TableBody>
         </Table>
+
+        
       </div>
     </div>
   );

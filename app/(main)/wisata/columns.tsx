@@ -6,6 +6,19 @@ import { ArrowUpDown, Eraser, Pencil } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
 import Modal from "react-modal"
+import { useRouter } from "next/navigation"
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+  DialogClose,
+} from "@/components/ui/dialog"
+import { useAuth } from "@/hooks/useAuth"
 
 
 // This type is used to define the shape of our data.
@@ -186,27 +199,72 @@ export const columns: ColumnDef<WisataType>[] = [
     {
       header: 'Action',
       id: 'action',
-      cell: ({ row }) => (
+      cell: ({ row }) => {
+        const [isLoading, setIsLoading] = useState(false);
+        const router = useRouter();
+        const {token} = useAuth();
+        const handleDeleteOnClick = async () => {
+          setIsLoading(true);
+          const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/places/${row.original.id}?secret_key=${process.env.NEXT_PUBLIC_BACKEND_API_KEY}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            method: "DELETE",
+          });
+
+          if (res.ok) {
+            alert("Data berhasil dihapus");
+            setIsLoading(false);
+            location.reload();
+          } else {
+            alert("Gagal menghapus data");
+          }
+          setIsLoading(false);
+        }
+
+        return (
         <div className="flex justify-center gap-1 text-xs">
           <Button
           className="bg-green-600 text-xs px-2"
             onClick={() => {
-              console.log("Edit", row.original.id);
+              router.push(`/wisata/edit/${row.original.id}`);
             }}
           >
             <Pencil />Edit
           </Button>
+
+          <Dialog>
+        <DialogTrigger asChild>
           <Button
             variant="destructive"
             className="text-xs px-2"
             onClick={() => {
               console.log("Delete", row.original.id);
             }}
-          >
+            >
+
             <Eraser /> Delete
           </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Are you sure to delete this data?</DialogTitle>
+                <DialogDescription>
+                  This action cannot be undone. This will permanently delete your data
+                  and remove your data from our servers.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+              <DialogClose asChild>
+            <Button type="button" variant="destructive" onClick={handleDeleteOnClick}>
+              Delete
+            </Button>
+          </DialogClose>
+    </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </div>
-      ),  
+      )},
     }
 ]
 

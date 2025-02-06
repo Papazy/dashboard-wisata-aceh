@@ -3,6 +3,14 @@ import { useEffect, useState } from "react";
 import { WisataType, columns } from "./columns"
 import { DataTable } from "./data-table"
 import LoadingIndicator from "@/components/loading";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 
 
 async function getData(): Promise<WisataType[]> {
@@ -41,7 +49,9 @@ export default function Wisata(){
 
   return (
     <div className="w-full flex justify-center">
+       
 
+    
     <DataTable columns={columns} data={data} isLoading={isLoading}/>
   </div>
   )

@@ -32,7 +32,7 @@ export default function Users() {
   const { token } = useAuth();
 
   useEffect(() => {
-    if (!token) {
+    if (token === null) {
       console.error("Token is not available");
       return;
     }

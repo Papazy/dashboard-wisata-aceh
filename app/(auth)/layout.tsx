@@ -7,6 +7,7 @@ import "../globals.css";
 import { useAuth } from "@/hooks/useAuth";
 import { useEffect, useState } from "react";
 import { redirect, useRouter } from "next/navigation";
+import LoadingIndicator from "@/components/loading";
 
 
   export default function AuthLayout({
@@ -33,7 +34,7 @@ import { redirect, useRouter } from "next/navigation";
     },[])
 
     if(isLoading){
-      return <div className="w-full h-screen flex justify-center items-center "><p>Loading...</p></div>
+      return <div className="w-full h-screen flex justify-center items-center "><LoadingIndicator/></div>
     }
 
     return (
