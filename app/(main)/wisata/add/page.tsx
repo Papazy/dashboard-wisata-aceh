@@ -30,7 +30,7 @@ async function uploadImage(placeId: number, file: File, token: string) {
   formData.append("image", file);
 
   const res = await fetch(
-    `http://98.70.50.91:8000/places/${placeId}/image?secret_key=${process.env.NEXT_PUBLIC_BACKEND_API_KEY}`,
+    `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/places/${placeId}/image?secret_key=${process.env.NEXT_PUBLIC_BACKEND_API_KEY}`,
     {
       method: "PUT",
       headers: {
